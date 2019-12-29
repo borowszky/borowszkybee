@@ -36,14 +36,6 @@ type FullJwt struct {
 
 var langTypes = []*langType{}
 
-var LongDayNames = []string{}
-
-var ShortDayNames = []string{}
-
-var ShortMonthNames = []string{}
-
-var LongMonthNames = []string{}
-
 func LoadLanguages() {
 	langs := strings.Split(beego.AppConfig.String("lang_types"), "|")
 	names := strings.Split(beego.AppConfig.String("lang_names"), "|")
