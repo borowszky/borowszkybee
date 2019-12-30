@@ -36,6 +36,10 @@ type FullJwt struct {
 
 var langTypes = []*langType{}
 
+func (c *ExtendedController)GetTranslatedText(messageKey string) string {
+	return i18n.Tr(c.Lang, messageKey);
+}
+
 func LoadLanguages() {
 	langs := strings.Split(beego.AppConfig.String("lang_types"), "|")
 	names := strings.Split(beego.AppConfig.String("lang_names"), "|")
