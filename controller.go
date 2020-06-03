@@ -166,6 +166,21 @@ func (c *ExtendedController) PerformHTTPGetInterface(relativeURL string, nullRes
 	viewData := getDetailsResponse.Data.([]interface{})
 	return viewData
 }
+func (c *ExtendedController) PerformHTTPGetInterfaceWithID(relativeURL, id, nullResponseMessage string) interface{} {
+	sess := c.GetSession(beego.AppConfig.String("SessionName"))
+	if sess == nil {
+		c.Redirect("/account/login", 302)
+		return nil
+	}
+	fullJwt := ExtractFullTokenFromSession(sess)
+	getDetailsResponse, err := MakeHTTPGet(beego.AppConfig.String(relativeURL) + id, fullJwt.Token)
+	processError := c.ProcessInvalidHTTPResponse(err, getDetailsResponse, nullResponseMessage)
+	if processError {
+		return nil
+	}
+	viewData := getDetailsResponse.Data.(interface{})
+	return viewData
+}
 
 func (c *ExtendedController) PerformHTTPGetInterfaceNoAuth(relativeURL string, nullResponseMessage string) []interface{} {
 	getDetailsResponse, err := MakeHTTPGet(beego.AppConfig.String(relativeURL), "")
